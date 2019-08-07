@@ -1,59 +1,25 @@
-let users = {
-	1: {
-		id: "1",
-		name: "Ricardo",
-		lastName: "Han",
-		productIds: [1, 2]
-	},
-	2: {
-		id: "2",
-		name: "Stella",
-		lastName: "Kim",
-		productIds: [3]
+import mongoose from "mongoose";
+
+import User from "./user";
+import Product from "./product";
+import Comment from "./comment";
+
+const connectDb = () => {
+	if (process.env.TEST_DATABASE_URL) {
+		return mongoose.connect(process.env.TEST_DATABASE_URL, {
+			useNewUrlParser: true
+		});
+	}
+
+	if (process.env.DATABASE_URL) {
+		return mongoose.connect(process.env.DATABASE_URL, {
+			useNewUrlParser: true
+		});
 	}
 };
 
-let products = {
-	1: {
-		productId: "1",
-		name: "quinto andar",
-		catchline: "supercool 1",
-		description: "descrição 1",
-		userId: "1"
-	},
-	2: {
-		productId: "2",
-		name: "conta azul",
-		catchline: "supercool 2",
-		description: "descrição 2",
-		userId: "1"
-	},
-	3: {
-		productId: "3",
-		name: "produto da stella",
-		catchline: "stella is cool",
-		description: "stella description",
-		userId: "2"
-	}
-};
+const models = { User, Product, Comment };
 
-let comments = {
-	1: {
-		text: "Esse produto é bão",
-		productId: "1"
-	},
-	2: {
-		text: "Esse aqui é marromenos",
-		productId: "2"
-	},
-	3: {
-		text: "Também achei esse produto muito bom",
-		productId: "1"
-	}
-};
+export { connectDb };
 
-export default {
-	users,
-	products,
-	comments
-};
+export default models;

@@ -4,7 +4,7 @@ import { ApolloServer } from "apollo-server-express";
 
 import schema from "./schema";
 import resolvers from "./resolvers";
-import models from "./models";
+import models, { connectDb } from "./models";
 
 const app = express();
 app.use(cors());
@@ -20,6 +20,10 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path: "/graphql" });
 
-app.listen({ port: 8000 }, () => {
-	console.log("Apollo Server on http://localhost:8000/graphql");
+connectDb().then(async () => {
+	app.listen(process.env.PORT, () => {
+		console.log(
+			`Apollo Server on http://localhost:${process.env.PORT}/graphql`
+		);
+	});
 });

@@ -1,10 +1,11 @@
 export default {
 	Query: {
-		user: (parent, { id }, { models }) => {
-			return models.users[id];
+		user: async (parent, { id }, { models }) => {
+			// when implement passport, use findOne({ googleId or something else: id })
+			return await models.User.findById(id);
 		},
-		users: (parent, args, { models }) => {
-			return Object.values(models.users);
+		users: async (parent, args, { models }) => {
+			return await models.User.find();
 		}
 	},
 	User: {
