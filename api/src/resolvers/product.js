@@ -2,40 +2,42 @@ import uuidv4 from "uuid/v4";
 
 export default {
 	Query: {
-		product: (parent, { id }, { models }) => {
-			return models.products[id];
+		product: async (parent, { id }, { models }) => {
+			return await models.Product.findById(id);
 		},
-		products: (parent, args, { models }) => {
-			return Object.values(models.products);
+		products: async (parent, args, { models }) => {
+			return await models.Product.find();
 		}
 	},
 
 	Mutation: {
-		createProduct: (
+		createProduct: async (
 			parent,
 			{ name, catchline, description },
 			{ me, models }
 		) => {
 			const productId = uuidv4();
 			const product = {
-				productId,
+				_id: productId,
 				name,
 				catchline,
 				description,
 				userId: me.id
 			};
 
-			models.products[productId] = product;
-			models.users[me.id].productIds.push(productId);
+			// can I update DB 2x in same resolver?
+			await models.User.findByIdAndUpdate(me.id, {
+				$push: { productIds: productId }
+			});
 
-			return product;
+			return await models.Product.create(product);
 		},
-		deleteProduct: (parent, { productId }, { models }) => {
+		deleteProduct: async (parent, { productId }, { models }) => {
 			const { [productId]: product, ...otherProducts } = models.products;
 
 			if (!product) return false;
 
-			models.products = otherProducts;
+			await models.Product.findOneAndRemove({ _id: productId });
 			return true;
 		},
 		updateProduct: (
@@ -51,19 +53,19 @@ export default {
 				description
 			});
 
-			models.products[productId] = newProduct;
+			models.Product.findOneAndUpdate({ _id: productId }, newProduct, {
+				new: true
+			});
 			return newProduct;
 		}
 	},
 
 	Product: {
-		user: (parent, args, { models }) => {
-			return models.users[parent.userId];
+		user: async (parent, args, { models }) => {
+			return await models.User.findById({ _id: parent.userId });
 		},
-		comments: (parent, args, { models }) => {
-			return Object.values(models.comments).filter(
-				comment => comment.productId === parent.productId
-			);
+		comments: async (parent, args, { models }) => {
+			return await models.Comment.find({ productId: parent.productId });
 		}
 	}
 };

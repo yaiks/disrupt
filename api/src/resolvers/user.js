@@ -1,5 +1,8 @@
 export default {
 	Query: {
+		me: async (parent, args, { models, me }) => {
+			return await models.User.findById(me.id);
+		},
 		user: async (parent, { id }, { models }) => {
 			// when implement passport, use findOne({ googleId or something else: id })
 			return await models.User.findById(id);
@@ -10,12 +13,10 @@ export default {
 	},
 	User: {
 		username: parent => {
-			return `${parent.name} ${parent.lastName}`;
+			return parent.username;
 		},
-		products: (parent, args, { models }) => {
-			return Object.values(models.products).filter(
-				product => product.userId === parent.id
-			);
+		products: async (parent, args, { models }) => {
+			return await models.Product.find({ userId: parent.id });
 		}
 	}
 };
