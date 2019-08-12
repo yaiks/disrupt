@@ -11,18 +11,12 @@ export default {
 	},
 
 	Mutation: {
-		createProduct: async (
-			parent,
-			{ name, catchline, description },
-			{ me, models }
-		) => {
+		createProduct: async (parent, { input }, { me, models }) => {
 			const productId = uuidv4();
 			const product = {
-				_id: productId,
-				name,
-				catchline,
-				description,
-				userId: me.id
+				id: productId,
+				userId: me.id,
+				...input
 			};
 
 			// can I update DB 2x in same resolver?
@@ -33,30 +27,13 @@ export default {
 			return await models.Product.create(product);
 		},
 		deleteProduct: async (parent, { productId }, { models }) => {
-			const { [productId]: product, ...otherProducts } = models.products;
-
-			if (!product) return false;
-
 			await models.Product.findOneAndRemove({ _id: productId });
 			return true;
 		},
-		updateProduct: (
-			parent,
-			{ productId, name, catchline, description },
-			{ models }
-		) => {
-			const { [productId]: product, ...otherProducts } = models.products;
-
-			const newProduct = Object.assign(product, {
-				name,
-				catchline,
-				description
-			});
-
-			models.Product.findOneAndUpdate({ _id: productId }, newProduct, {
+		updateProduct: async (parent, { productId, input }, { models }) => {
+			return await models.Product.findOneAndUpdate({ _id: productId }, input, {
 				new: true
 			});
-			return newProduct;
 		}
 	},
 
@@ -65,7 +42,7 @@ export default {
 			return await models.User.findById({ _id: parent.userId });
 		},
 		comments: async (parent, args, { models }) => {
-			return await models.Comment.find({ productId: parent.productId });
+			return await models.Comment.find({ productId: parent._id });
 		}
 	}
 };

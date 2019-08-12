@@ -6,19 +6,16 @@ export default gql`
 		products: [Product!]
 	}
 
+	input ProductInput {
+		name: String!
+		catchline: String!
+		description: String!
+	}
+
 	extend type Mutation {
-		createProduct(
-			name: String!
-			catchline: String!
-			description: String!
-		): Product!
+		createProduct(input: ProductInput!): Product!
 		deleteProduct(productId: ID!): Boolean!
-		updateProduct(
-			productId: ID!
-			name: String!
-			catchline: String!
-			description: String!
-		): Product!
+		updateProduct(productId: ID!, input: ProductInput!): Product!
 	}
 
 	type Product {
