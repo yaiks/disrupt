@@ -13,17 +13,17 @@ export default gql`
 	}
 
 	extend type Mutation {
-		createProduct(input: ProductInput!): Product!
+		createProduct(product: ProductInput!): Product!
 		deleteProduct(productId: ID!): Boolean!
-		updateProduct(productId: ID!, input: ProductInput!): Product!
+		updateProduct(productId: ID!, product: ProductInput!): Product!
 	}
 
 	type Product {
-		productId: ID!
+		id: ID!
 		name: String!
 		catchline: String!
 		description: String!
 		user: User!
-		comments: [Comment!]
+		comments: [Comment]
 	}
 `;

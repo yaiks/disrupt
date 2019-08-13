@@ -5,10 +5,6 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		unique: true,
 		required: true
-	},
-	productIds: {
-		type: Array,
-		ref: "Product"
 	}
 });
 

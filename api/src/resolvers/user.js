@@ -16,7 +16,7 @@ export default {
 			return parent.username;
 		},
 		products: async (parent, args, { models }) => {
-			return await models.Product.findOne({ userId: parent._id });
+			return await models.Product.find({ userId: parent._id });
 		}
 	}
 };

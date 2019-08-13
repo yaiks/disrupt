@@ -15,7 +15,7 @@ const server = new ApolloServer({
 	resolvers,
 	context: async () => ({
 		models,
-		me: models.User.findByLogin("ricardohan")
+		me: await models.User.findByLogin("ricardohan")
 	})
 });
 
@@ -25,7 +25,10 @@ const eraseDatabaseOnSync = true;
 
 connectDb().then(async () => {
 	if (eraseDatabaseOnSync) {
-		await Promise.all([models.User.deleteMany({})]);
+		await Promise.all([
+			models.User.deleteMany({}),
+			models.Product.deleteMany({})
+		]);
 
 		seedDatabase();
 	}
