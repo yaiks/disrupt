@@ -37,9 +37,6 @@ export default {
 	Product: {
 		user: async (parent, args, { models }) => {
 			return await models.User.findById({ _id: parent.userId });
-		},
-		comments: async (parent, args, { models }) => {
-			return await models.Product.find(parent._id).populate("comments");
 		}
 	}
 };

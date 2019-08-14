@@ -24,6 +24,5 @@ export default gql`
 		catchline: String!
 		description: String!
 		user: User!
-		comments: [Comment]
 	}
 `;

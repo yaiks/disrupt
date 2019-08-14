@@ -1,7 +1,7 @@
 export default {
 	Query: {
-		text: async (parent, { productId }, { models }) => {
-			return models.Comment.findById({ productId });
+		comments: async (parent, args, { models }) => {
+			return await models.Comment.find();
 		}
 	},
 	Mutation: {
@@ -12,7 +12,12 @@ export default {
 				text
 			};
 
-			return models.Comment.create(newComment);
+			return await models.Comment.create(newComment);
+		}
+	},
+	Comment: {
+		text: async (parent, args, { models }) => {
+			return parent.text;
 		}
 	}
 };
