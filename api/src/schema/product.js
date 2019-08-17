@@ -7,9 +7,9 @@ export default gql`
 	}
 
 	input ProductInput {
-		name: String!
-		catchline: String!
-		description: String!
+		name: String
+		catchline: String
+		description: String
 	}
 
 	extend type Mutation {
@@ -23,6 +23,7 @@ export default gql`
 		name: String!
 		catchline: String!
 		description: String!
+		comments: [Comment!]
 		user: User!
 	}
 `;

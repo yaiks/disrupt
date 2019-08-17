@@ -2,15 +2,16 @@ import { gql } from "apollo-server-express";
 
 export default gql`
 	extend type Query {
-		comments: [Comment]
+		comments(productId: ID!): [Comment!]
 	}
 
 	extend type Mutation {
-		createComment(text: String, productId: ID): Comment!
+		createComment(productId: ID!, text: String!): Comment!
 	}
 
 	type Comment {
 		text: String
-		product: Product
+		userId: ID
+		productId: ID
 	}
 `;

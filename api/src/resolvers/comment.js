@@ -1,23 +1,26 @@
 export default {
 	Query: {
-		comments: async (parent, args, { models }) => {
-			return await models.Comment.find();
+		comments: async (parent, { productId }, { models }) => {
+			return await models.Comment.find({ productId });
 		}
 	},
 	Mutation: {
 		createComment: async (parent, { productId, text }, { me, models }) => {
-			const newComment = {
-				userId: me.id,
+			const comment = {
+				userId: me._id,
 				productId,
 				text
 			};
 
-			return await models.Comment.create(newComment);
-		}
-	},
-	Comment: {
-		text: async (parent, args, { models }) => {
-			return parent.text;
+			const newComment = await models.Comment.create(comment);
+			await models.Product.update(
+				{ _id: productId },
+				{
+					$push: { comments: newComment._id }
+				}
+			);
+
+			return newComment;
 		}
 	}
 };

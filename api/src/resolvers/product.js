@@ -37,6 +37,11 @@ export default {
 	Product: {
 		user: async (parent, args, { models }) => {
 			return await models.User.findById({ _id: parent.userId });
+		},
+		comments: async (parent, args, { models }) => {
+			return await models.Comment.find({
+				_id: { $in: parent.comments }
+			});
 		}
 	}
 };
