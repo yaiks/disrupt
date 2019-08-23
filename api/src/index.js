@@ -6,9 +6,19 @@ import { ApolloServer } from "apollo-server-express";
 import schema from "./schema";
 import resolvers from "./resolvers";
 import models, { connectDb } from "./models";
+// passport should come after models import
+import "./services/passport";
+
+import authRoutes from "./routes/authRoutes";
+
+// need to implement JWT as method in User Schema
+// need express session??
+// authenticate graphql resolvers
 
 const app = express();
 app.use(cors());
+
+authRoutes(app);
 
 const server = new ApolloServer({
 	typeDefs: schema,
@@ -27,7 +37,8 @@ connectDb().then(async () => {
 	if (eraseDatabaseOnSync) {
 		await Promise.all([
 			models.User.deleteMany({}),
-			models.Product.deleteMany({})
+			models.Product.deleteMany({}),
+			models.Comment.deleteMany({})
 		]);
 
 		seedDatabase();

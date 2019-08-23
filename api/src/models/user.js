@@ -5,7 +5,8 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		unique: true,
 		required: true
-	}
+	},
+	googleId: String
 });
 
 userSchema.statics.findByLogin = async function(login) {
@@ -15,6 +16,10 @@ userSchema.statics.findByLogin = async function(login) {
 
 	return user;
 };
+
+// userSchema.methods.generateJWT = function() {
+
+// }
 
 userSchema.pre("remove", function(next) {
 	this.model("Product").deleteMany({ userId: this._id }, next);
