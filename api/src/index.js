@@ -11,7 +11,6 @@ import "./services/passport";
 
 import authRoutes from "./routes/authRoutes";
 
-// need to implement JWT as method in User Schema
 // need express session??
 // authenticate graphql resolvers
 

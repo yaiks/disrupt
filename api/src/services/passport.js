@@ -12,22 +12,19 @@ passport.use(
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 			callbackURL: "/auth/google/callback"
 		},
-		(accessToken, refreshToken, profile, done) => {
-			User.findOne({ googleId: profile.id }).then(existingUser => {
-				if (existingUser) {
-					done(null, existingUser);
-				} else {
-					new User({
-						googleId: profile.id,
-						username: profile.displayName
-					})
-						.save()
-						.then(user => done(null, user));
-				}
-			});
-			// User.findOrCreate({ googleId: profile.id }, function(err, user) {
-			// 	return cb(err, user);
-			// });
+		async (accessToken, refreshToken, profile, done) => {
+			const existingUser = await User.findOne({ googleId: profile.id });
+
+			if (existingUser) {
+				done(null, existingUser);
+			} else {
+				const user = await User.create({
+					googleId: profile.id,
+					username: profile.displayName
+				});
+
+				done(null, user);
+			}
 		}
 	)
 );

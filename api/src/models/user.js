@@ -17,10 +17,6 @@ userSchema.statics.findByLogin = async function(login) {
 	return user;
 };
 
-// userSchema.methods.generateJWT = function() {
-
-// }
-
 userSchema.pre("remove", function(next) {
 	this.model("Product").deleteMany({ userId: this._id }, next);
 });
