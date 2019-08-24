@@ -6,13 +6,14 @@ import { ApolloServer } from "apollo-server-express";
 import schema from "./schema";
 import resolvers from "./resolvers";
 import models, { connectDb } from "./models";
-// passport should come after models import
 import "./services/passport";
 
 import authRoutes from "./routes/authRoutes";
 
-// need express session??
-// authenticate graphql resolvers
+// now we are passing the JWT to the client.
+// read more about JWT and passport here https://www.sitepoint.com/spa-social-login-google-facebook/
+// the client will pass the jwt in every request.
+// we should handle the jwt verification in resolvers? Authorization matter.
 
 const app = express();
 app.use(cors());

@@ -17,6 +17,21 @@ userSchema.statics.findByLogin = async function(login) {
 	return user;
 };
 
+userSchema.statics.findOrCreateGoogleUser = async function(profile) {
+	const user = await this.findOne({ googleId: profile.id });
+
+	if (!user) {
+		const newUser = await User.create({
+			googleId: profile.id,
+			username: profile.displayName
+		});
+
+		return newUser;
+	}
+
+	return user;
+};
+
 userSchema.pre("remove", function(next) {
 	this.model("Product").deleteMany({ userId: this._id }, next);
 });
