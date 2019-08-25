@@ -1,4 +1,5 @@
-import uuidv4 from "uuid/v4";
+import { combineResolvers } from "graphql-resolvers";
+import { isAuthenticated, isProductOwner } from "./authorization";
 
 export default {
 	Query: {
@@ -11,27 +12,38 @@ export default {
 	},
 
 	Mutation: {
-		createProduct: async (parent, { product }, { me, models }) => {
-			const newProduct = {
-				userId: me._id,
-				...product
-			};
+		createProduct: combineResolvers(
+			isAuthenticated,
+			async (parent, { product }, { me, models }) => {
+				const newProduct = {
+					userId: me.id,
+					...product
+				};
 
-			return await models.Product.create(newProduct);
-		},
-		deleteProduct: async (parent, { productId }, { models }) => {
-			await models.Product.findOneAndRemove({ _id: productId });
-			return true;
-		},
-		updateProduct: async (parent, { productId, product }, { models }) => {
-			return await models.Product.findOneAndUpdate(
-				{ _id: productId },
-				product,
-				{
-					new: true
-				}
-			);
-		}
+				return await models.Product.create(newProduct);
+			}
+		),
+		deleteProduct: combineResolvers(
+			isAuthenticated,
+			isProductOwner,
+			async (parent, { productId }, { models }) => {
+				await models.Product.findOneAndRemove({ _id: productId });
+				return true;
+			}
+		),
+		updateProduct: combineResolvers(
+			isAuthenticated,
+			isProductOwner,
+			async (parent, { productId, product }, { models }) => {
+				return await models.Product.findOneAndUpdate(
+					{ _id: productId },
+					product,
+					{
+						new: true
+					}
+				);
+			}
+		)
 	},
 
 	Product: {

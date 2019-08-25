@@ -1,7 +1,8 @@
 import "dotenv/config";
 import express from "express";
+import jwt from "jsonwebtoken";
 import cors from "cors";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, AuthenticationError } from "apollo-server-express";
 
 import schema from "./schema";
 import resolvers from "./resolvers";
@@ -15,18 +16,36 @@ import authRoutes from "./routes/authRoutes";
 // the client will pass the jwt in every request.
 // we should handle the jwt verification in resolvers? Authorization matter.
 
+// AFTER: add nginx or express proxy to manage same client and server localhost PORT
+
 const app = express();
 app.use(cors());
 
 authRoutes(app);
 
+const getMe = async req => {
+	const token = req.headers["x-token"];
+
+	if (token) {
+		try {
+			return await jwt.verify(token, process.env.SECRET);
+		} catch (error) {
+			throw new AuthenticationError("Your session expired. Sign in again");
+		}
+	}
+};
+
 const server = new ApolloServer({
 	typeDefs: schema,
 	resolvers,
-	context: async () => ({
-		models,
-		me: await models.User.findByLogin("ricardohan")
-	})
+	context: async ({ req }) => {
+		const me = await getMe(req);
+
+		return {
+			models,
+			me
+		};
+	}
 });
 
 server.applyMiddleware({ app, path: "/graphql" });
