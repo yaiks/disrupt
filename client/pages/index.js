@@ -1,81 +1,39 @@
+/** @jsx jsx */
 import React from "react";
 import Head from "next/head";
-import styled from "@emotion/styled";
-import { keyframes, css, Global } from "@emotion/core";
+import { jsx, css, Global } from "@emotion/core";
+import { Header, Content } from "../components";
 
-const basicStyles = css`
-	background-color: white;
-	color: cornflowerblue;
-	border: 1px solid lightgreen;
-	border-right: none;
-	border-bottom: none;
-	box-shadow: 5px 5px 0 0 lightgreen, 10px 10px 0 0 lightyellow;
-	transition: all 0.1s linear;
-	margin: 3rem 0;
-	padding: 1rem 0.5rem;
-`;
-const hoverStyles = css`
-	&:hover {
-		color: white;
-		background-color: lightgray;
-		border-color: aqua;
-		box-shadow: -15px -15px 0 0 aqua, -30px -30px 0 0 cornflowerblue;
+const globalStyles = css`
+	html,
+	body {
+		background: #f3f3f3;
+		min-height: 100%;
+		font-family: Helvetica, Arial, sans-serif;
+		font-size: 16px;
 	}
-`;
-const bounce = keyframes`
-  from {
-    transform: scale(1.01);
-  }
-  to {
-    transform: scale(0.99);
-  }
-`;
-
-const Basic = styled.div`
-	${basicStyles};
-`;
-
-const Combined = styled.div`
-	${basicStyles};
-	${hoverStyles};
-	& code {
-		background-color: linen;
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
 	}
-`;
-const Animated = styled.div`
-	${basicStyles};
-	${hoverStyles};
-	& code {
-		background-color: linen;
-	}
-	animation: ${props => props.animation} 0.2s infinite ease-in-out alternate;
 `;
 
 export default () => {
 	return (
 		<React.Fragment>
-			<Global
-				styles={css`
-					html,
-					body {
-						padding: 3rem 1rem;
-						margin: 0;
-						background: papayawhip;
-						min-height: 100%;
-						font-family: Helvetica, Arial, sans-serif;
-						font-size: 24px;
-					}
-				`}
-			/>
 			<Head>
-				<title>\o/</title>
+				<title>Disrupt - Descubra novos produtos e serviços</title>
 			</Head>
-			<div>
-				<Basic>Cool Styles</Basic>
-				<Combined>
-					With <code>:hover</code>.
-				</Combined>
-				<Animated animation={bounce}>Let's bounce.</Animated>
+			<Global styles={globalStyles} />
+			<div
+				css={css`
+					width: 100%;
+					height: 100%;
+				`}
+			>
+				<Header></Header>
+				<Content></Content>
 			</div>
 		</React.Fragment>
 	);
