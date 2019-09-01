@@ -26,6 +26,8 @@ export default app => {
 				username: req.user.username,
 				token
 			});
+
+			// maybe should res.redirect?
 		}
 	);
 };

@@ -1,10 +1,26 @@
 import React from "react";
+import Link from "next/link";
 import styled from "@emotion/styled";
 import { css } from "@emotion/core";
 import Container from "./Container";
+import Aside from "./Aside";
+import mq from "../utils/breakpoints";
 
 const customStyle = css`
 	margin-top: 20px;
+	${mq[1]} {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin-top: 30px;
+	}
+`;
+
+const Main = styled.main`
+	${mq[1]} {
+		flex: 1;
+		min-width: 0;
+	}
 `;
 
 const ContentBlock = styled.div`
@@ -14,7 +30,7 @@ const ContentBlock = styled.div`
 	margin: 0 0 30px;
 `;
 
-const Header = styled.div`
+const SectionHeader = styled.div`
 	display: flex;
 	align-items: center;
 	margin-bottom: 10px;
@@ -32,12 +48,13 @@ const ProductItem = styled.div`
 	position: relative;
 `;
 
-const ProductLink = styled.a`
+const AnchorTag = styled.a`
 	border-bottom: 1px solid #e8e8e8;
-	padding: 15px;
+	padding: 20px 104px 20px 20px;
 	display: flex;
 	text-decoration: none;
 	background-color: transparent;
+	cursor: pointer;
 `;
 
 const ProductImage = styled.img`
@@ -53,7 +70,7 @@ const ProductImage = styled.img`
 
 const ProductContent = styled.div``;
 
-const Title = styled.div`
+const Name = styled.div`
 	color: #6f6f6f;
 	line-height: 32px;
 	font-weight: 300;
@@ -69,30 +86,53 @@ const Description = styled.div`
 	align-items: center;
 `;
 
+const VoteButtonWrapper = styled.div`
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: 20px;
+`;
+
+const VoteButton = styled.button`
+	width: 64px;
+	height: 74px;
+	margin-left: 12px;
+	padding: 0 8px;
+	border-radius: 3px;
+	border: 1px solid #e8e8e8;
+	background: #fff;
+`;
+
 const products = [
 	{
-		title: "Disrupt",
+		name: "Disrupt",
 		description: "A better way to find new products",
 		image: ""
 	},
 	{
-		title: "Quinto Andar",
+		name: "Quinto Andar",
 		description: "Buy your new apartment easily",
 		image: ""
 	},
 	{
-		title: "Conta Azul",
+		name: "Conta Azul",
 		description: "Manage your finance with ease",
 		image: ""
 	}
 ];
 
+const ProductLink = ({ children, name }) => (
+	<Link href='/product/[name]' as={`/product/${name}`}>
+		<AnchorTag>{children}</AnchorTag>
+	</Link>
+);
+
 export default () => (
 	<Container customStyle={customStyle}>
-		<main>
+		<Main>
 			<div>
 				<ContentBlock>
-					<Header>
+					<SectionHeader>
 						<span
 							style={{
 								lineHeight: "32px",
@@ -114,22 +154,30 @@ export default () => (
 							{" "}
 							powered by Disrupt
 						</span>
-					</Header>
+					</SectionHeader>
 					<Content>
 						{products.map((product, index) => (
 							<ProductItem key={index}>
-								<ProductLink>
-									<ProductImage image={product.image} />
+								<ProductLink name={product.name}>
+									<div style={{ marginRight: "10px", position: "relative" }}>
+										<ProductImage image={product.image} />
+									</div>
 									<ProductContent>
-										<Title>{product.title}</Title>
+										<Name>{product.name}</Name>
 										<Description>{product.description}</Description>
 									</ProductContent>
 								</ProductLink>
+								<VoteButtonWrapper>
+									<VoteButton>
+										<span>click</span>
+									</VoteButton>
+								</VoteButtonWrapper>
 							</ProductItem>
 						))}
 					</Content>
 				</ContentBlock>
 			</div>
-		</main>
+		</Main>
+		<Aside />
 	</Container>
 );

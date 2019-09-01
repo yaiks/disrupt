@@ -11,11 +11,7 @@ import "./services/passport";
 
 import authRoutes from "./routes/authRoutes";
 
-// now we are passing the JWT to the client.
 // read more about JWT and passport here https://www.sitepoint.com/spa-social-login-google-facebook/
-// the client will pass the jwt in every request.
-// we should handle the jwt verification in resolvers? Authorization matter.
-
 // AFTER: add nginx or express proxy to manage same client and server localhost PORT
 
 const app = express();
