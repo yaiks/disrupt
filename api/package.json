@@ -3,6 +3,10 @@
 	"version": "1.0.0",
 	"description": "A GraphQL API for the disrupt app",
 	"main": "src/index.js",
+	"engines": {
+		"node": "10.16.1",
+		"npm": "6.9.0"
+	},
 	"scripts": {
 		"build": "babel src -d dist",
 		"start": "npm run build && nodemon dist/index.js",
