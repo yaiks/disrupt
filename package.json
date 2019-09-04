@@ -4,10 +4,9 @@
 	"description": "Beautiful UI for disrupt app",
 	"main": "index.js",
 	"scripts": {
-		"dev": "next",
+		"dev": "NODE_ENV=development node server.js",
 		"build": "next build",
-		"start": "next start",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "NODE_ENV=production node server.js"
 	},
 	"author": "Ricardo Han",
 	"license": "ISC",
@@ -17,6 +16,7 @@
 		"@emotion/core": "^10.0.16",
 		"@emotion/styled": "^10.0.15",
 		"apollo-boost": "^0.4.4",
+		"express": "^4.17.1",
 		"graphql": "^14.4.2",
 		"next": "^9.0.3",
 		"react": "^16.9.0",
@@ -24,6 +24,7 @@
 		"unfetch": "^4.1.0"
 	},
 	"devDependencies": {
-		"babel-plugin-emotion": "^10.0.16"
+		"babel-plugin-emotion": "^10.0.16",
+		"http-proxy-middleware": "^0.20.0"
 	}
 }

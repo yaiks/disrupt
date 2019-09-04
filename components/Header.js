@@ -87,8 +87,15 @@ export default () => (
 				</nav>
 			</LeftSection>
 			<RightSection>
-				<p>Right section</p>
+				<a href='/auth/google'>Login</a>
 			</RightSection>
 		</Container>
 	</Header>
 );
+
+// criar o custom server com reverse proxy, só pra dev environment
+// https://github.com/zeit/next.js/blob/master/examples/with-custom-reverse-proxy/server.js
+
+// mudar o back pra passar o token por query string
+// pegar a query no front, botar no localStorage e refresh to '/', tudo isso no componentDidMount (useEffect)
+// https://hackernoon.com/m-e-r-n-stack-application-using-passport-for-authentication-920b1140a134
