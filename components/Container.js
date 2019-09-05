@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { css } from "@emotion/core";
 import mq from "../utils/breakpoints";
 
 const Container = styled.div`
@@ -10,13 +9,13 @@ const Container = styled.div`
 	margin-right: auto;
 	padding-left: 10px;
 	padding-right: 10px;
-	${props => props.customStyle};
+	${props => props.customStyles};
 	${mq[1]} {
 		padding-left: 15px;
 		padding-right: 15px;
 	}
 `;
 
-export default ({ children, customStyle }) => (
-	<Container customStyle={customStyle}>{children}</Container>
+export default ({ children, customStyles }) => (
+	<Container customStyles={customStyles}>{children}</Container>
 );

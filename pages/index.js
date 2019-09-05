@@ -1,40 +1,21 @@
-/** @jsx jsx */
-import React from "react";
-import Head from "next/head";
-import { jsx, css, Global } from "@emotion/core";
-import { Header, Content } from "../components";
+import { css } from "@emotion/core";
+import { Content, Layout } from "../components";
+import mq from "../utils/breakpoints";
 
-const globalStyles = css`
-	html,
-	body {
-		background: #f3f3f3;
-		min-height: 100%;
-		font-family: Helvetica, Arial, sans-serif;
-		font-size: 16px;
-	}
-	* {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
+const customStyles = css`
+	margin-top: 20px;
+	${mq[1]} {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin-top: 30px;
 	}
 `;
 
 export default () => {
 	return (
-		<React.Fragment>
-			<Head>
-				<title>Disrupt - Descubra novos produtos e serviços</title>
-			</Head>
-			<Global styles={globalStyles} />
-			<div
-				css={css`
-					width: 100%;
-					height: 100%;
-				`}
-			>
-				<Header></Header>
-				<Content></Content>
-			</div>
-		</React.Fragment>
+		<Layout customStyles={customStyles}>
+			<Content></Content>
+		</Layout>
 	);
 };

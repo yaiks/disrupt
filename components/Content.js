@@ -1,20 +1,8 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Link from "next/link";
 import styled from "@emotion/styled";
-import { css } from "@emotion/core";
-import Container from "./Container";
 import Aside from "./Aside";
 import mq from "../utils/breakpoints";
-
-const customStyle = css`
-	margin-top: 20px;
-	${mq[1]} {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		margin-top: 30px;
-	}
-`;
 
 const Main = styled.main`
 	${mq[1]} {
@@ -128,7 +116,7 @@ const ProductLink = ({ children, name }) => (
 );
 
 export default () => (
-	<Container customStyle={customStyle}>
+	<Fragment>
 		<Main>
 			<div>
 				<ContentBlock>
@@ -179,5 +167,5 @@ export default () => (
 			</div>
 		</Main>
 		<Aside />
-	</Container>
+	</Fragment>
 );

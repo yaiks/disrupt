@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/core";
 import Container from "./Container";
 
-const customStyle = css`
+const customStyles = css`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -24,7 +24,7 @@ const LeftSection = styled.div`
 	min-width: 0;
 	min-height: 0;
 	max-width: 65%;
-	overflow-y: auto;
+	overflow-x: auto;
 	height: 100%;
 `;
 
@@ -69,10 +69,17 @@ const items = ["startup jobs", "recruit", "invest", "blog", "more"];
 
 export default () => (
 	<Header>
-		<Container customStyle={customStyle}>
+		<Container customStyles={customStyles}>
 			<LeftSection>
 				<a
-					style={{ display: "flex", marginRight: "10px", alignItems: "center" }}
+					href='/'
+					style={{
+						display: "flex",
+						marginRight: "10px",
+						alignItems: "center",
+						textDecoration: "none",
+						color: "#333"
+					}}
 				>
 					Logo
 				</a>
@@ -87,14 +94,11 @@ export default () => (
 				</nav>
 			</LeftSection>
 			<RightSection>
-				<a href='/auth/google'>Login</a>
+				<a href='/login'>Login</a>
 			</RightSection>
 		</Container>
 	</Header>
 );
-
-// criar o custom server com reverse proxy, só pra dev environment
-// https://github.com/zeit/next.js/blob/master/examples/with-custom-reverse-proxy/server.js
 
 // mudar o back pra passar o token por query string
 // pegar a query no front, botar no localStorage e refresh to '/', tudo isso no componentDidMount (useEffect)

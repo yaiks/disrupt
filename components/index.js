@@ -1,4 +1,5 @@
 import Header from "./Header";
 import Content from "./Content";
+import Layout from "./Layout";
 
-export { Header, Content };
+export { Header, Content, Layout };

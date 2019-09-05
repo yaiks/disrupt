@@ -25,6 +25,7 @@
 	},
 	"devDependencies": {
 		"babel-plugin-emotion": "^10.0.16",
+		"babel-plugin-inline-react-svg": "^1.1.0",
 		"http-proxy-middleware": "^0.20.0"
 	}
 }
