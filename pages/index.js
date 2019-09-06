@@ -1,3 +1,5 @@
+import React, { useEffect } from "react";
+import Router from "next/router";
 import { css } from "@emotion/core";
 import { Content, Layout } from "../components";
 import mq from "../utils/breakpoints";
@@ -13,6 +15,16 @@ const customStyles = css`
 `;
 
 export default () => {
+	useEffect(() => {
+		const token = new URLSearchParams(window.location.search).get("token");
+		if (token) {
+			window.localStorage.setItem("token", token);
+			Router.push({
+				pathname: "/"
+			});
+		}
+	});
+
 	return (
 		<Layout customStyles={customStyles}>
 			<Content></Content>
