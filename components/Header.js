@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/core";
 import Container from "./Container";
+import { useAuth } from "../context/auth-context";
 
 const customStyles = css`
 	display: flex;
@@ -67,38 +68,50 @@ const Anchor = styled.a`
 
 const items = ["startup jobs", "recruit", "invest", "blog", "more"];
 
-export default () => (
-	<Header>
-		<Container customStyles={customStyles}>
-			<LeftSection>
-				<a
-					href='/'
-					style={{
-						display: "flex",
-						marginRight: "10px",
-						alignItems: "center",
-						textDecoration: "none",
-						color: "#333"
-					}}
-				>
-					Logo
-				</a>
-				<nav>
-					<List>
-						{items.map((item, index) => (
-							<Item key={index}>
-								<Anchor>{item}</Anchor>
-							</Item>
-						))}
-					</List>
-				</nav>
-			</LeftSection>
-			<RightSection>
-				<a href='/login'>Login</a>
-			</RightSection>
-		</Container>
-	</Header>
-);
+export default () => {
+	const user = useAuth();
+	console.log("user", user);
+	return (
+		<Header>
+			<Container customStyles={customStyles}>
+				<LeftSection>
+					<a
+						href='/'
+						style={{
+							display: "flex",
+							marginRight: "10px",
+							alignItems: "center",
+							textDecoration: "none",
+							color: "#333"
+						}}
+					>
+						Logo
+					</a>
+					<nav>
+						<List>
+							{items.map((item, index) => (
+								<Item key={index}>
+									<Anchor>{item}</Anchor>
+								</Item>
+							))}
+						</List>
+					</nav>
+				</LeftSection>
+				<RightSection>
+					{user ? (
+						<img
+							style={{ width: "30px", height: "30px", borderRadius: "3px" }}
+							src={user.imageUrl}
+							alt={user.username}
+						/>
+					) : (
+						<a href='/login'>Login</a>
+					)}
+				</RightSection>
+			</Container>
+		</Header>
+	);
+};
 
 // mudar o back pra passar o token por query string
 // pegar a query no front, botar no localStorage e refresh to '/', tudo isso no componentDidMount (useEffect)
