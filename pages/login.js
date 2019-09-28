@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/core";
 import { Layout } from "../components";
 import Google from "../static/google.svg";
-import fetch from "unfetch";
 
 const customStyles = css`
 	display: flex;

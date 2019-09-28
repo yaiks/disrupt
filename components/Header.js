@@ -1,6 +1,8 @@
+/** @jsx jsx */
 import React from "react";
+import Link from "next/link";
 import styled from "@emotion/styled";
-import { css } from "@emotion/core";
+import { css, jsx } from "@emotion/core";
 import Container from "./Container";
 import { useAuth } from "../context/auth-context";
 
@@ -98,14 +100,31 @@ export default () => {
 					</nav>
 				</LeftSection>
 				<RightSection>
-					{user ? (
-						<img
-							style={{ width: "30px", height: "30px", borderRadius: "3px" }}
-							src={user.imageUrl}
-							alt={user.username}
-						/>
+					{user.username ? (
+						<div
+							css={css`
+								display: flex;
+								align-items: center;
+							`}
+						>
+							<Link href='/add-product'>
+								<a>Add Product</a>
+							</Link>
+							<img
+								style={{
+									width: "30px",
+									height: "30px",
+									borderRadius: "3px",
+									marginLeft: "15px"
+								}}
+								src={user.imageUrl}
+								alt={user.username}
+							/>
+						</div>
 					) : (
-						<a href='/login'>Login</a>
+						<Link href='/login'>
+							<a>Login</a>
+						</Link>
 					)}
 				</RightSection>
 			</Container>

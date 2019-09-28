@@ -118,53 +118,51 @@ const ProductLink = ({ children, name }) => (
 export default () => (
 	<Fragment>
 		<Main>
-			<div>
-				<ContentBlock>
-					<SectionHeader>
-						<span
-							style={{
-								lineHeight: "32px",
-								fontWeight: "600",
-								fontSize: "20px"
-							}}
-						>
-							Products
-						</span>
-						<span
-							style={{
-								lineHeight: "20px",
-								fontWeight: "400",
-								fontSize: "13px",
-								marginLeft: "5px",
-								marginTop: "3px"
-							}}
-						>
-							{" "}
-							powered by Disrupt
-						</span>
-					</SectionHeader>
-					<Content>
-						{products.map((product, index) => (
-							<ProductItem key={index}>
-								<ProductLink name={product.name}>
-									<div style={{ marginRight: "10px", position: "relative" }}>
-										<ProductImage image={product.image} />
-									</div>
-									<ProductContent>
-										<Name>{product.name}</Name>
-										<Description>{product.description}</Description>
-									</ProductContent>
-								</ProductLink>
-								<VoteButtonWrapper>
-									<VoteButton>
-										<span>click</span>
-									</VoteButton>
-								</VoteButtonWrapper>
-							</ProductItem>
-						))}
-					</Content>
-				</ContentBlock>
-			</div>
+			<ContentBlock>
+				<SectionHeader>
+					<span
+						style={{
+							lineHeight: "32px",
+							fontWeight: "600",
+							fontSize: "20px"
+						}}
+					>
+						Products
+					</span>
+					<span
+						style={{
+							lineHeight: "20px",
+							fontWeight: "400",
+							fontSize: "13px",
+							marginLeft: "5px",
+							marginTop: "3px"
+						}}
+					>
+						{" "}
+						powered by Disrupt
+					</span>
+				</SectionHeader>
+				<Content>
+					{products.map((product, index) => (
+						<ProductItem key={index}>
+							<ProductLink name={product.name}>
+								<div style={{ marginRight: "10px", position: "relative" }}>
+									<ProductImage image={product.image} />
+								</div>
+								<ProductContent>
+									<Name>{product.name}</Name>
+									<Description>{product.description}</Description>
+								</ProductContent>
+							</ProductLink>
+							<VoteButtonWrapper>
+								<VoteButton>
+									<span>click</span>
+								</VoteButton>
+							</VoteButtonWrapper>
+						</ProductItem>
+					))}
+				</Content>
+			</ContentBlock>
 		</Main>
 		<Aside />
 	</Fragment>
