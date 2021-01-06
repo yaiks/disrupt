@@ -1,0 +1,45 @@
+import mongoose from "mongoose";
+
+const userSchema = new mongoose.Schema({
+	username: {
+		type: String,
+		unique: true,
+		required: true
+	},
+	googleId: String,
+	email: String,
+	imageUrl: String
+});
+
+userSchema.statics.findByLogin = async function(login) {
+	let user = await this.findOne({
+		username: login
+	});
+
+	return user;
+};
+
+userSchema.statics.findOrCreateGoogleUser = async function(profile) {
+	const user = await this.findOne({ googleId: profile.id });
+
+	if (!user) {
+		const newUser = await User.create({
+			googleId: profile.id,
+			username: profile.displayName,
+			email: profile.emails[0].value,
+			imageUrl: profile.photos[0].value
+		});
+
+		return newUser;
+	}
+
+	return user;
+};
+
+userSchema.pre("remove", function(next) {
+	this.model("Product").deleteMany({ userId: this._id }, next);
+});
+
+const User = mongoose.model("User", userSchema);
+
+export default User;
